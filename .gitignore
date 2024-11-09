@@ -3,6 +3,7 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 /[Ll]ibrary/
+/CarGame/Assets/Versatile Studio Assets/
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
