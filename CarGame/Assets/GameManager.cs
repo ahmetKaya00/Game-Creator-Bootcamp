@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class GameManager : MonoBehaviour
     private CinemachineBasicMultiChannelPerlin cameranoise;
     private CinemachineTransposer transposer;
 
+    private Rigidbody selectedCarRigibody;
+    private Text speedText;
+
     private void Start()
     {
         string selectedPrefabName = PlayerPrefs.GetString("SelectedCarPrefab");
@@ -21,6 +25,7 @@ public class GameManager : MonoBehaviour
         if(carPrefab != null)
         {
             selectedCar = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
+            selectedCarRigibody = selectedCar.GetComponent<Rigidbody>();
             virtualCamera.Follow = selectedCar.transform;
             virtualCamera.LookAt = selectedCar.transform;
 
@@ -28,12 +33,24 @@ public class GameManager : MonoBehaviour
 
             cameranoise = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+
+            speedText = GameObject.Find("ibre").GetComponent<Text>();
         }
         else
         {
             Debug.Log("Seçilen araç bulunamadý.");
         }
     }
+    private void Update()
+    {
+        if(selectedCarRigibody != null && speedText != null)
+        {
+            float carSpeed = selectedCarRigibody.velocity.magnitude * 3.6f;
+            speedText.text = Mathf.Round(carSpeed).ToString() + "\nkm/h";
+        }
+    }
+
+
 
     public void setCameraPositionandRotation()
     {
